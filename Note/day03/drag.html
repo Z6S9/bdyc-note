@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>day03拖拽方块</title>
+	</head>
+	<body>
+    <div id="drag" style="width: 100px;height: 100px;border: solid 1px green;position: fixed;"></div>   
+	</body>
+</html>
+
+<script>
+      function enableDrag(element) {
+        let x0, y0;
+        let ex = 0, ey = 0;
+        let move = e => {
+          let [dx, dy] = [e.clientX - x0, e.clientY - y0];
+          console.log(dx, dy, ex, ey);
+          element.style.left = `${ex + dx}px`
+          element.style.top = `${ey + dy}px`
+        }
+        let up = e => {
+          document.removeEventListener("mousemove", move);
+          document.removeEventListener("mouseup", up);
+          let [dx, dy] = [e.clientX - x0, e.clientY - y0];
+          ex += dx;
+          ey += dy;
+        }
+        element.addEventListener("mousedown", e => {
+          [x0, y0] = [e.clientX, e.clientY];
+          document.addEventListener("mousemove", move);
+          document.addEventListener("mouseup", up);
+        })
+      }
+      enableDrag(document.getElementById("drag"))
+    </script>
